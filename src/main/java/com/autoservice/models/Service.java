@@ -2,6 +2,7 @@ package com.autoservice.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -14,7 +15,7 @@ public class Service  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer service_id;
 
-    @NotEmpty(message = "Cost cannot be empty")
+    @NotNull(message = "cost cant be empty")
     @Column(name = "cost")
     private Float cost;
 
