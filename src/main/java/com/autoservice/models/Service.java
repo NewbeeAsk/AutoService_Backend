@@ -32,10 +32,19 @@ public class Service  implements Serializable {
 
     public Service(){}
 
-    public Service(Float cost, String name, String description, String category/*, Check check*/) {
+    public Service(String name, String category, Float cost, String description) {
         this.cost = cost;
         this.name = name;
         this.description = description;
+        this.category = category;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public Integer getService_id() {
