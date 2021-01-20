@@ -9,30 +9,30 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/auto-service")
-public class servicesController {
+public class Services {
 
     @Autowired
     private final ServiceRepository serviceRepository;
 
-    public servicesController(ServiceRepository serviceRepository) {
+    public Services(ServiceRepository serviceRepository) {
         this.serviceRepository = serviceRepository;
     }
 
     @CrossOrigin
-    @GetMapping("/service")
+    @GetMapping
     public List<Service> getAllServices(){
     return serviceRepository.findAll();
     }
 
     @CrossOrigin
-    @PostMapping("/service")
+    @PostMapping
     public Service postNewService(@RequestBody Service service){
     serviceRepository.save(service);
     return service;
     }
 
     @CrossOrigin
-    @DeleteMapping("/service/{id}")
+    @DeleteMapping("/{id}")
     public void deleteService(@PathVariable Integer id){
     serviceRepository.deleteById(id);
     }
