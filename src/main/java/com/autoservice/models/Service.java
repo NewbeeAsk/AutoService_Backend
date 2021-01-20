@@ -23,12 +23,16 @@ public class Service  implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @NotEmpty(message = "Category cannot be empty")
+    @Column(name = "category")
+    private String category;
+
     @Column(name = "description")
     private String description;
 
     public Service(){}
 
-    public Service(Float cost, String name, String description/*, Check check*/) {
+    public Service(Float cost, String name, String description, String category/*, Check check*/) {
         this.cost = cost;
         this.name = name;
         this.description = description;
