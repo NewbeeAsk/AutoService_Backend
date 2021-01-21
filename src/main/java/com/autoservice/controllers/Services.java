@@ -33,26 +33,26 @@ public class Services {
 
     @CrossOrigin
     @GetMapping
-    public List<Service> getAllServices(){
-    return serviceRepository.findAll();
+    public List<Service> getAllServices() {
+        return serviceRepository.findAll();
     }
 
     @CrossOrigin
     @PostMapping
-    public Service postNewService(@RequestBody Service service){
-    serviceRepository.save(service);
-    return service;
+    public Service postNewService(@RequestBody Service service) {
+        serviceRepository.save(service);
+        return service;
     }
 
     @CrossOrigin
     @DeleteMapping("/{id}")
-    public void deleteService(@PathVariable Integer id){
-    serviceRepository.deleteById(id);
+    public void deleteService(@PathVariable Integer id) {
+        serviceRepository.deleteById(id);
     }
 
     @CrossOrigin
     @PostMapping("/order")
-    public Check postOrder(@RequestBody ArrayList<Service> serviceList){
+    public Check postOrder(@RequestBody ArrayList<Service> serviceList) {
         Check check = new Check();
         check.setPaid(false);
         float totalCost = (float) 0;

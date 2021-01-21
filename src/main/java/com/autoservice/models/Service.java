@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "services")
-public class Service  implements Serializable {
+public class Service implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,8 @@ public class Service  implements Serializable {
     @Column(name = "description")
     private String description;
 
-    public Service(){}
+    public Service() {
+    }
 
     public Service(String name, String category, Float cost, String description) {
         this.cost = cost;

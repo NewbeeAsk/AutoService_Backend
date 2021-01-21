@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "ordered_services")
-public class OrderedService  implements Serializable {
+public class OrderedService implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,7 +37,8 @@ public class OrderedService  implements Serializable {
     @JoinColumn(name = "check_id")
     private Check check;
 
-    public OrderedService(){}
+    public OrderedService() {
+    }
 
     public OrderedService(String name, String category, Float cost, String description, boolean done, Check check) {
         this.cost = cost;
