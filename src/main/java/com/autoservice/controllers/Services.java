@@ -9,6 +9,7 @@ import com.autoservice.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -49,4 +50,18 @@ public class Services {
     serviceRepository.deleteById(id);
     }
 
+    @CrossOrigin
+    @PostMapping("/order")
+    public Check postOrder(@RequestBody ArrayList<Service> serviceList){
+        Check check = new Check();
+        check.setPaid(false);
+        float totalCost = (float) 0;
+        for (Service service : serviceList) {
+            totalCost = totalCost + service.getCost();
+        }
+        check.setTotalCost(totalCost);
+        checkRepository.save(check);
+        serviceList.forEach(el -> orderedServicesRepository.save(new OrderedService(el.getName(), el.getCategory(), el.getCost(), el.getDescription(), false, check)));
+        return check;
+    }
 }

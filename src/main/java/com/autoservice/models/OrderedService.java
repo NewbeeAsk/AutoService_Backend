@@ -30,17 +30,21 @@ public class OrderedService  implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "done")
+    private boolean done;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "check_id")
     private Check check;
 
     public OrderedService(){}
 
-    public OrderedService(String name, String category, Float cost, String description, Check check) {
+    public OrderedService(String name, String category, Float cost, String description, boolean done, Check check) {
         this.cost = cost;
         this.name = name;
         this.description = description;
         this.category = category;
+        this.done = done;
         this.check = check;
     }
 
@@ -90,6 +94,14 @@ public class OrderedService  implements Serializable {
 
     public void setCheck(Check check) {
         this.check = check;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 }
 
