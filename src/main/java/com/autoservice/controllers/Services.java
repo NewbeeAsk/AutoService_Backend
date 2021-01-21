@@ -1,6 +1,10 @@
 package com.autoservice.controllers;
 
+import com.autoservice.models.Check;
+import com.autoservice.models.OrderedService;
 import com.autoservice.models.Service;
+import com.autoservice.repositories.CheckRepository;
+import com.autoservice.repositories.OrderedServicesRepository;
 import com.autoservice.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +18,16 @@ public class Services {
     @Autowired
     private final ServiceRepository serviceRepository;
 
-    public Services(ServiceRepository serviceRepository) {
+    @Autowired
+    private final CheckRepository checkRepository;
+
+    @Autowired
+    private final OrderedServicesRepository orderedServicesRepository;
+
+    public Services(ServiceRepository serviceRepository, CheckRepository checkRepository, OrderedServicesRepository orderedServicesRepository) {
         this.serviceRepository = serviceRepository;
+        this.checkRepository = checkRepository;
+        this.orderedServicesRepository = orderedServicesRepository;
     }
 
     @CrossOrigin
