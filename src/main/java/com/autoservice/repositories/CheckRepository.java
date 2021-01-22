@@ -11,4 +11,7 @@ import java.util.List;
 public interface CheckRepository extends JpaRepository<Check, Object> {
     @Query(nativeQuery = true, value = "SELECT * FROM checks WHERE complete = false")
     public List<Check> searchOpenCheck();
+
+    @Query(nativeQuery = true, value = "SELECT * FROM checks WHERE complete = true")
+    public List<Check> searchCloseChecks();
 }

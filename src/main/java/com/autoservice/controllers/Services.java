@@ -61,11 +61,25 @@ public class Services {
     }
 
     @CrossOrigin
-    @PutMapping("/order/{id}")
-    public Check AddServiceToOrder(@PathVariable Integer id, @RequestBody Service service) {
+    @PostMapping("/order/{id}")
+    public OrderedService AddServiceToOrder(@PathVariable Integer id, @RequestBody Service service) {
         Check check = checkRepository.findById(id).orElseThrow();
-        orderedServicesRepository.save(new OrderedService(service.getName(), service.getCategory(), service.getCost(), service.getDescription(), false, check));
-        return check;
+        OrderedService orderedService = orderedServicesRepository.save(new OrderedService(service.getName(), service.getCategory(), service.getCost(), service.getDescription(), false, check));
+        return orderedService;
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/order/{id}")
+    public void deleteServiceFromCart(@PathVariable Integer id) {
+        orderedServicesRepository.deleteById(id);
+    }
+
+    @CrossOrigin
+    @GetMapping("/order")
+    public OpenCheck getOpenCheck() {
+        Check check = checkRepository.searchOpenCheck().get(0);
+        List<OrderedService> services = orderedServicesRepository.searchOrderedServices(check.getCheck_id());
+        return new OpenCheck(services, check);
     }
 
     @CrossOrigin
@@ -83,22 +97,8 @@ public class Services {
     }
 
     @CrossOrigin
-    @GetMapping("/order")
-    public OpenCheck getOpenCheck() {
-        Check check = checkRepository.searchOpenCheck().get(0);
-        List<OrderedService> services = orderedServicesRepository.searchOrderedServices(check.getCheck_id());
-        return new OpenCheck(services, check);
-    }
-
-    @CrossOrigin
     @GetMapping("/orders")
     public List<Check> getAllChecks() {
-        return checkRepository.findAll();
-    }
-
-    @CrossOrigin
-    @DeleteMapping("/order/{id}")
-    public void deleteServiceFromCart(@PathVariable Integer id) {
-        orderedServicesRepository.deleteById(id);
+        return checkRepository.searchCloseChecks();
     }
 }
