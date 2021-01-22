@@ -55,7 +55,7 @@ public class Services {
     @CrossOrigin
     @GetMapping("/new-order")
     public OpenCheck openOrder() {
-        Check check = checkRepository.save(new Check(BigDecimal.valueOf(0),false));
+        Check check = checkRepository.save(new Check(BigDecimal.valueOf(0), false));
         List<OrderedService> services = new ArrayList<>();
         return new OpenCheck(services, check);
     }
@@ -77,7 +77,12 @@ public class Services {
     @CrossOrigin
     @GetMapping("/order")
     public OpenCheck getOpenCheck() {
-        Check check = checkRepository.searchOpenCheck().get(0);
+        Check check;
+        if (checkRepository.searchOpenCheck().size() != 0) {
+            check = checkRepository.searchOpenCheck().get(0);
+        } else {
+            check = checkRepository.save(new Check(BigDecimal.valueOf(0), false));
+        }
         List<OrderedService> services = orderedServicesRepository.searchOrderedServices(check.getCheck_id());
         return new OpenCheck(services, check);
     }
@@ -93,6 +98,7 @@ public class Services {
         }
         check.setTotalCost(totalCost);
         check.setComplete(true);
+        checkRepository.save(check);
         return check;
     }
 
