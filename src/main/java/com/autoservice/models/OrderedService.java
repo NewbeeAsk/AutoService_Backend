@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "ordered_services")
@@ -17,7 +18,7 @@ public class OrderedService implements Serializable {
 
     @NotNull(message = "cost cant be empty")
     @Column(name = "cost")
-    private Float cost;
+    private BigDecimal cost;
 
     @NotEmpty(message = "Name cannot be empty")
     @Column(name = "name")
@@ -40,7 +41,7 @@ public class OrderedService implements Serializable {
     public OrderedService() {
     }
 
-    public OrderedService(String name, String category, Float cost, String description, boolean done, Check check) {
+    public OrderedService(String name, String category, BigDecimal cost, String description, boolean done, Check check) {
         this.cost = cost;
         this.name = name;
         this.description = description;
@@ -65,11 +66,11 @@ public class OrderedService implements Serializable {
         this.service_id = service_id;
     }
 
-    public Float getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(Float cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 

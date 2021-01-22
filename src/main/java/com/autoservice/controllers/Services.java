@@ -6,9 +6,11 @@ import com.autoservice.models.Service;
 import com.autoservice.repositories.CheckRepository;
 import com.autoservice.repositories.OrderedServicesRepository;
 import com.autoservice.repositories.ServiceRepository;
+import com.autoservice.services.OpenCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,17 +53,52 @@ public class Services {
     }
 
     @CrossOrigin
-    @PostMapping("/order")
-    public Check postOrder(@RequestBody ArrayList<Service> serviceList) {
-        Check check = new Check();
-        check.setPaid(false);
-        float totalCost = (float) 0;
-        for (Service service : serviceList) {
-            totalCost = totalCost + service.getCost();
+    @GetMapping("/new-order")
+    public OpenCheck openOrder() {
+        Check check = checkRepository.save(new Check(BigDecimal.valueOf(0),false));
+        List<OrderedService> services = new ArrayList<>();
+        return new OpenCheck(services, check);
+    }
+
+    @CrossOrigin
+    @PutMapping("/order/{id}")
+    public Check AddServiceToOrder(@PathVariable Integer id, @RequestBody Service service) {
+        Check check = checkRepository.findById(id).orElseThrow();
+        orderedServicesRepository.save(new OrderedService(service.getName(), service.getCategory(), service.getCost(), service.getDescription(), false, check));
+        return check;
+    }
+
+    @CrossOrigin
+    @GetMapping("/order/{id}")
+    public Check closeOrder(@PathVariable Integer id) {
+        Check check = checkRepository.findById(id).orElseThrow();
+        List<OrderedService> services = orderedServicesRepository.searchOrderedServices(check.getCheck_id());
+        BigDecimal totalCost = BigDecimal.valueOf(0);
+        for (OrderedService service : services) {
+            totalCost = totalCost.add(service.getCost());
         }
         check.setTotalCost(totalCost);
-        checkRepository.save(check);
-        serviceList.forEach(el -> orderedServicesRepository.save(new OrderedService(el.getName(), el.getCategory(), el.getCost(), el.getDescription(), false, check)));
+        check.setComplete(true);
         return check;
+    }
+
+    @CrossOrigin
+    @GetMapping("/order")
+    public OpenCheck getOpenCheck() {
+        Check check = checkRepository.searchOpenCheck().get(0);
+        List<OrderedService> services = orderedServicesRepository.searchOrderedServices(check.getCheck_id());
+        return new OpenCheck(services, check);
+    }
+
+    @CrossOrigin
+    @GetMapping("/orders")
+    public List<Check> getAllChecks() {
+        return checkRepository.findAll();
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/order/{id}")
+    public void deleteServiceFromCart(@PathVariable Integer id) {
+        orderedServicesRepository.deleteById(id);
     }
 }

@@ -3,7 +3,7 @@ package com.autoservice.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "checks")
@@ -17,7 +17,11 @@ public class Check implements Serializable {
 
     @NotNull(message = "TotalCost cannot be empty")
     @Column(name = "totalCost")
-    private Float totalCost;
+    private BigDecimal totalCost;
+
+    @NotNull
+    @Column(name = "complete")
+    private boolean complete;
 
     @NotNull
     @Column(name = "paid")
@@ -26,7 +30,7 @@ public class Check implements Serializable {
     public Check() {
     }
 
-    public Check(Float totalCost, boolean paid) {
+    public Check(BigDecimal totalCost, boolean paid) {
         this.totalCost = totalCost;
         this.paid = paid;
     }
@@ -39,11 +43,11 @@ public class Check implements Serializable {
         this.check_id = check_id;
     }
 
-    public Float getTotalCost() {
+    public BigDecimal getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(Float totalCost) {
+    public void setTotalCost(BigDecimal totalCost) {
         this.totalCost = totalCost;
     }
 
@@ -53,6 +57,14 @@ public class Check implements Serializable {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
     }
 
 }
