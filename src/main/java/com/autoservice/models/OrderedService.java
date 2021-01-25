@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "services")
-public class Service implements Serializable {
+@Table(name = "ordered_services")
+public class OrderedService implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,14 +31,23 @@ public class Service implements Serializable {
     @Column(name = "description")
     private String description;
 
-    public Service() {
+    @Column(name = "done")
+    private boolean done;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "check_id")
+    private Check check;
+
+    public OrderedService() {
     }
 
-    public Service(String name, String category, BigDecimal cost, String description) {
+    public OrderedService(String name, String category, BigDecimal cost, String description, boolean done, Check check) {
         this.cost = cost;
         this.name = name;
         this.description = description;
         this.category = category;
+        this.done = done;
+        this.check = check;
     }
 
     public String getCategory() {
@@ -79,6 +88,22 @@ public class Service implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Check getCheck() {
+        return check;
+    }
+
+    public void setCheck(Check check) {
+        this.check = check;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 }
 
