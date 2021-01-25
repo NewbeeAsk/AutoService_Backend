@@ -1,8 +1,6 @@
 package com.autoservice.controllers;
 
 import com.autoservice.models.Service;
-import com.autoservice.repositories.CheckRepository;
-import com.autoservice.repositories.OrderedServicesRepository;
 import com.autoservice.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

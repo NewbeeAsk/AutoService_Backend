@@ -76,7 +76,7 @@ public class OrderService {
     public List<ClosedCheck> getCostByCategory() {
         List<ClosedCheck> closedChecks = new ArrayList<>();
         List<Check> checks = checkRepository.searchCloseChecks();
-        for(Check check : checks){
+        for (Check check : checks) {
             List<OrderedService> orderedServices = orderedServicesRepository.searchOrderedServices(check.getCheck_id());
             List<String> categories = new ArrayList<>();
             for (OrderedService service : orderedServices) {
@@ -85,14 +85,14 @@ public class OrderService {
             HashSet<String> uniqueCategories = new HashSet<>(categories);
             List<CostByCategory> costByCategories = new ArrayList<>();
 
-            for (String category : uniqueCategories) {
+            for (String uniqueCategory : uniqueCategories) {
                 BigDecimal costByCategory = BigDecimal.valueOf(0);
                 for (OrderedService service : orderedServices) {
-                    if(service.getCategory().equals(category)){
+                    if (service.getCategory().equals(uniqueCategory)) {
                         costByCategory = costByCategory.add(service.getCost());
                     }
                 }
-                costByCategories.add(new CostByCategory(costByCategory, category));
+                costByCategories.add(new CostByCategory(costByCategory, uniqueCategory));
                 costByCategory = BigDecimal.valueOf(0);
             }
             closedChecks.add(new ClosedCheck(costByCategories, check));
