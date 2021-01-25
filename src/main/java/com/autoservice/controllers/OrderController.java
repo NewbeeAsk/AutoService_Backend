@@ -26,13 +26,13 @@ public class OrderController {
         }
 
         @CrossOrigin
-        @PostMapping
+        @PostMapping("/services")
         public OrderedService addServiceToOrder(@RequestBody Service service) {
             return orderService.addServiceToOrder(service);
         }
 
         @CrossOrigin
-        @DeleteMapping("/{id}")
+        @DeleteMapping("/services/{id}")
         public void deleteServiceFromOrder(@PathVariable Integer id) {
             orderService.deleteServiceFromOrder(id);
         }
@@ -48,12 +48,6 @@ public class OrderController {
         public Check closeOrder() {
             return orderService.closeOrder();
         }
-
-        /*@CrossOrigin
-        @GetMapping("/orders")
-        public List<Check> getAllChecks() {
-            return orderService.getAllChecks();
-        }*/
 
         @CrossOrigin
         @GetMapping("/orders")
