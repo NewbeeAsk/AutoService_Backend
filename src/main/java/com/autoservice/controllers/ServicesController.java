@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/auto-service")
 public class ServicesController {
@@ -17,20 +18,17 @@ public class ServicesController {
         this.serviceRepository = serviceRepository;
     }
 
-    @CrossOrigin
     @GetMapping
     public List<Service> getAllServices() {
         return serviceRepository.findAll();
     }
 
-    @CrossOrigin
     @PostMapping
     public Service postNewService(@RequestBody Service service) {
         serviceRepository.save(service);
         return service;
     }
 
-    @CrossOrigin
     @DeleteMapping("/{id}")
     public void deleteService(@PathVariable Integer id) {
         serviceRepository.deleteById(id);
